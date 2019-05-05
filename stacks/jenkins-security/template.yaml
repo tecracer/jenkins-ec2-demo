@@ -32,12 +32,20 @@ Resources:
           CidrIp: 0.0.0.0/0
           FromPort: 80
           ToPort: 80
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "JenkinsServer"
 
   SecurityGroupJenkinsNode:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
       GroupDescription: "Jenkins Node"
       VpcId: !Ref VPC
+      Tags: 
+        - 
+          Key: "Name"
+          Value: "JenkinsNode"
 
   SecurityJenkinsToNodes:
     Type: 'AWS::EC2::SecurityGroupIngress'

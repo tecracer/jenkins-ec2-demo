@@ -13,6 +13,15 @@ template = jenkins-security
 get-standard-vpc: ## Write Standard vpc into paramater
 	scripts/get-vpc-ids.sh
 
+show-vpc: ## Get Standard VPC
+	aws ec2 describe-vpcs --query "Vpcs[0].VpcId" --output text
+
+show-sg: ## Show Node Security Group
+	aws cloudformation describe-stack-resources --stack-name $(template) --query 'StackResources[?LogicalResourceId==`SecurityGroupJenkinsNode`].PhysicalResourceId'
+
+show-subnet: ## Show Subnet
+	aws ec2 describe-subnets --query "Subnets[*][AvailabilityZone,SubnetId,VpcId]"
+
 security: get-standard-vpc ## Deploy role and security groups
 	clouds -r $(region) update --events -c $(template)
 
